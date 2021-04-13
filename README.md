@@ -67,3 +67,7 @@ Inizia il deploy del Replica Set (https://docs.mongodb.com/manual/tutorial/deplo
   )
   ```
 - Aggiungi eventuali altri utenti
+- Per aggiungere eventuali altri nodi, sul mongo master lancia:
+  ```
+  rs.add( { host: "<IP-nodo>:27017", priority: 0, votes: 0 } )
+  ```
