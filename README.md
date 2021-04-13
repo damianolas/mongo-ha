@@ -23,3 +23,47 @@ Inizia il deploy del Replica Set (https://docs.mongodb.com/manual/tutorial/deplo
   ``` 
   mongo --host <IP>
   ```
+- Valorizza la replication nel file di config (TUTTI I NODI):
+  ``` 
+  sudo vim /etc/mongod.conf  
+  ```
+  ``` 
+  replication:
+   replSetName: "rs0"
+  ```
+- Riavvia il servizio (TUTTI I NODI):
+  ```
+  sudo systemctl restart mongod
+  ```
+- Connettiti al mongo master:
+  ```
+  mongo
+  ```
+- Lancia il comando di replica:
+  ```
+  rs.initiate( {
+   _id : "rs0",
+   members: [
+      { _id: 0, host: "<IP-nodo>:27017" },
+      { _id: 1, host: "<IP-nodo>:27017" },
+      { _id: 2, host: "<IP-nodo>:27017" }
+   ]
+  })
+  ```
+- Check replica:
+  ```
+  rs.status()
+  rs.conf()
+  ```
+- Aggiungi l'utente Admin:  
+  ```
+  use admin
+  db.createUser(
+    {
+      user: "Admin",
+      pwd: "PASSWORD",
+      roles: [ { role: "userAdminAnyDatabase", db: "admin" }, "readWriteAnyDatabase" ]
+    }
+  )
+  ```
+- Aggiungi eventuali altri utenti
